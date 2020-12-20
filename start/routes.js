@@ -17,3 +17,9 @@
 const Route = use('Route')
 
 Route.post('/companies', 'CompanyController.store')
+
+Route.post('/users', 'UserController.store')
+
+Route.post('/salterns', 'SalternController.store').middleware("auth")
+
+Route.post('/sessions', 'SessionController.store')
