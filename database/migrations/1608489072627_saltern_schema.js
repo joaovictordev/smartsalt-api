@@ -1,6 +1,5 @@
 'use strict'
 
-/** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema')
 
 class SalternSchema extends Schema {
@@ -8,7 +7,10 @@ class SalternSchema extends Schema {
     this.create('salterns', (table) => {
       table.increments()
       table.string("name").notNullable()
+      table.integer('company_id').notNullable()
       table.timestamps()
+
+      table.foreign('company_id').references('companies.id').onDelete('cascade')
     })
   }
 

@@ -1,6 +1,5 @@
 'use strict'
 
-/** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema')
 
 class UserSchema extends Schema {
@@ -11,7 +10,7 @@ class UserSchema extends Schema {
       table.integer('company_id').notNullable()
       table.string('email').notNullable().unique()
       table.string('password').notNullable()
-      table.boolean('is_admin').notNullable()
+      table.boolean('is_admin').notNullable().defaultTo(false)
       table.timestamps()
 
       table.foreign('company_id').references('companies.id').onDelete('cascade')

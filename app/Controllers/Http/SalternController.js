@@ -1,85 +1,46 @@
 'use strict'
 
-const Saltern = use("App/Models/Saltern")
-const User = use("App/Models/User")
+const Saltern = use('App/Models/Saltern')
 
-/** @typedef {import('@adonisjs/framework/src/Request')} Request */
-/** @typedef {import('@adonisjs/framework/src/Response')} Response */
-/** @typedef {import('@adonisjs/framework/src/View')} View */
-
-/**
- * Resourceful controller for interacting with salterns
- */
 class SalternController {
-  /**
-   * Show a list of all salterns.
-   * GET salterns
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async index ({ request, response, view }) {
+  async store({ request, response }) {
+    const data = request.only(['name', 'company_id'])
 
-  }
+    const saltern = await Saltern.create(data)
 
-  /**
-   * Create/save a new saltern.
-   * POST salterns
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async store ({ auth, request, response }) {
-    const userId = auth.user.id
-
-    const { is_admin } = await User.find(userId)
-
-    if (is_admin) {
-      const data = request.only(["name"])
-
-      const saltern = await Saltern.create(data)
-
-      return saltern
+    if (saltern) {
+      response.created()
     } else {
-      response.status(401).json({ message: "user not is admin"})
+      response.badRequest()
     }
   }
 
-  /**
-   * Display a single saltern.
-   * GET salterns/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async show ({ params, request, response, view }) {
+  async update({ params, request, response }) {
+    const { id } = params
+
+    const saltern = await Saltern.find(id)
+
+    const data = request.only(['name'])
+
+    saltern.merge(data)
+
+    const res = await saltern.save()
+
+    if (res) {
+      response.ok()
+    } else {
+      response.badRequest()
+    }
   }
 
-  /**
-   * Update saltern details.
-   * PUT or PATCH salterns/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async update ({ params, request, response }) {
-  }
+  async destroy({ params, response }) {
+    const { id } = params
 
-  /**
-   * Delete a saltern with id.
-   * DELETE salterns/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async destroy ({ params, request, response }) {
+    const saltern = await Saltern.find(id)
+
+    saltern.delete()
+
+    response.ok()
   }
 }
 

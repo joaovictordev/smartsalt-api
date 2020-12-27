@@ -1,9 +1,17 @@
 'use strict'
 
-/** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Model = use('Model')
 
 class Saltern extends Model {
+  users() {
+    return this.belongsToMany('App/Models/User')
+      .pivotTable('members')
+      .withTimestamps()
+  }
+
+  stations() {
+    return this.hasMany('App/models/Station')
+  }
 }
 
 module.exports = Saltern
