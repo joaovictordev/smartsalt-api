@@ -3,6 +3,25 @@
 const User = use('App/Models/User')
 
 class UserController {
+  async index({ auth, request, response }) {
+    const { id } = auth.user
+
+    const user = await User.find(id)
+
+    if (user.is_admin) {
+      const { company_id } = request.all()
+
+      const users = User
+        .query()
+        .where('company_id', company_id)
+        .andWhere('id', '!=', id)
+        .fetch()
+
+      return users
+    }
+
+    response.unauthorized()
+  }
   async store({ request, response }) {
     const { name, email, password, company_id, salterns } = request.all()
 

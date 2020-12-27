@@ -15,7 +15,7 @@ Route.get('hashs', async () => {
 Route.post('sessions', 'SessionController.store')
 
 Route.resource('users', 'UserController')
-  .only(['store', 'update', 'destroy'])
+  .only(['index', 'store', 'update', 'destroy'])
   .middleware('auth')
 
 Route.put('passwords/:id', 'PasswordController.update')
@@ -30,5 +30,5 @@ Route.resource('stations', 'StationController')
   .middleware(['auth'])
 
 Route.resource('measurements', 'MeasurementController')
-  .only(['store'])
+  .only(['index', 'store'])
   .middleware(['auth'])

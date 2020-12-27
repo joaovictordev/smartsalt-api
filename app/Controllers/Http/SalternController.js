@@ -4,9 +4,13 @@ const Saltern = use('App/Models/Saltern')
 
 class SalternController {
   async store({ request, response }) {
-    const data = request.only(['name', 'company_id'])
+    const { users, name, company_id } = request.all()
 
-    const saltern = await Saltern.create(data)
+    const saltern = await Saltern.create({ name, company_id })
+
+    if(users.length > 0) {
+      await saltern.users().attach(users)
+    }
 
     if (saltern) {
       response.created()

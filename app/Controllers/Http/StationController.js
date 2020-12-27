@@ -3,6 +3,17 @@
 const Station = use('App/Models/Station')
 
 class StationController {
+  async index({ request }) {
+    const { saltern_id } = request.get()
+
+    const stations = await Station
+      .query()
+      .where('saltern_id', saltern_id)
+      .fetch()
+
+    return stations
+  }
+
   async store({ request, response }) {
     const data = request.only(['name', 'area', 'latitude', 'longitude', 'saltern_id'])
 
