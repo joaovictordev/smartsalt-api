@@ -12,23 +12,32 @@ Route.get('hashs', async () => {
 
 // ------------------------------------------------
 
-Route.post('sessions', 'SessionController.store')
+Route.post('sessions', 'SessionController.storeUser')
+Route.post('admin/sessions', 'SessionController.storeAdmin')
+
+// ----------- User -------------------------------
 
 Route.resource('users', 'UserController')
-  .only(['index', 'store', 'update', 'destroy'])
-  .middleware('auth')
-
-Route.put('passwords/:id', 'PasswordController.update')
-  .middleware('auth')
+  .only(['update', 'show'])
+  .middleware(['auth:user'])
 
 Route.resource('salterns', 'SalternController')
-  .only(['store', 'update'])
-  .middleware(['auth'])
-
-Route.resource('stations', 'StationController')
-  .only(['store', 'update', 'destroy'])
-  .middleware(['auth'])
+  .only(['index'])
+  .middleware(['auth:user'])
 
 Route.resource('measurements', 'MeasurementController')
   .only(['index', 'store'])
-  .middleware(['auth'])
+  .middleware(['auth:user'])
+
+// ----------- Admin -------------------------------
+Route.resource('users', 'UserController')
+  .only(['index', 'store', 'update', 'destroy'])
+  .middleware(['auth:admin'])
+
+Route.resource('salterns', 'SalternController')
+  .only(['index', 'store', 'update', 'destroy'])
+  .middleware(['auth:admin'])
+
+Route.resource('stations', 'StationController')
+  .only(['index','store', 'update', 'destroy'])
+  .middleware(['auth:admin'])

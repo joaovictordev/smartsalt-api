@@ -2,23 +2,20 @@
 
 const Schema = use('Schema')
 
-class UserSchema extends Schema {
+class AdminSchema extends Schema {
   up () {
-    this.create('users', (table) => {
+    this.create('admins', (table) => {
       table.increments()
       table.string('name').notNullable()
-      table.integer('company_id').notNullable()
       table.string('email').notNullable().unique()
       table.string('password').notNullable()
       table.timestamps()
-
-      table.foreign('company_id').references('companies.id').onDelete('cascade')
     })
   }
 
   down () {
-    this.drop('users')
+    this.drop('admins')
   }
 }
 
-module.exports = UserSchema
+module.exports = AdminSchema
