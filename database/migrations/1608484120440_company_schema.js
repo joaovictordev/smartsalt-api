@@ -6,7 +6,12 @@ class CompanySchema extends Schema {
   up () {
     this.create('companies', (table) => {
       table.increments()
-      table.string('name')
+      table.string('name').notNullable()
+      table.string('fantasy_name')
+      table.string('cnpj')
+      table.string('owner')
+      table.string('phone').notNullable()
+      table.string('email').notNullable()
       table.timestamps()
     })
   }

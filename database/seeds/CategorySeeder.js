@@ -1,6 +1,6 @@
 'use strict'
 
-const Property = use('App/Models/Property')
+const Category = use('App/Models/Category')
 
 /*
 |--------------------------------------------------------------------------
@@ -15,15 +15,16 @@ const Property = use('App/Models/Property')
 /** @type {import('@adonisjs/lucid/src/Factory')} */
 const Factory = use('Factory')
 
-class PropertySeeder {
+class CategorySeeder {
   async run () {
-    const propertyData = [
-      { name: 'Densidade', unit: 'ºBé'},
-      { name: 'Nível da água', unit: 'm'}
+    const categoryData = [
+      { name: 'Evaporador'},
+      { name: 'Cristalizador'},
+      { name: 'Pilha de sal'}
     ]
 
-    await Property.createMany(propertyData)
+    await Category.createMany(categoryData)
   }
 }
 
-module.exports = PropertySeeder
+module.exports = CategorySeeder

@@ -34,6 +34,10 @@ Route.resource('users', 'UserController')
   .only(['index', 'store', 'update', 'destroy'])
   .middleware(['auth:admin'])
 
+Route.resource('companies', 'CompanyController')
+  .apiOnly()
+  .middleware(['auth:admin'])
+
 Route.resource('salterns', 'SalternController')
   .only(['index', 'store', 'update', 'destroy'])
   .middleware(['auth:admin'])

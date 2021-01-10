@@ -9,6 +9,10 @@ class Station extends Model {
       .withTimestamps()
       .withPivot(['value', 'collected_at'])
   }
+
+  category () {
+    return this.belongsTo('App/Models/Category')
+  }
 }
 
 module.exports = Station
