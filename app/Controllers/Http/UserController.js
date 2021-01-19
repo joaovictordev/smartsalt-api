@@ -1,37 +1,38 @@
 'use strict'
 
 const User = use('App/Models/User')
+const Saltern = use('App/Models/Saltern')
 
 class UserController {
-  async index({ auth, request, response }) {
-    const { id } = auth.user
+  async index ({ request }) {
+    const { company_id, saltern_id } = request.get()
 
-    const user = await User.find(id)
+    const saltern = await Saltern.find(saltern_id)
 
-    if (user.is_admin) {
-      const { company_id } = request.all()
+    const members = await saltern
+      .users()
+      .wherePivot('saltern_id', saltern_id)
+      .fetch()
 
-      const users = User
-        .query()
-        .where('company_id', company_id)
-        .andWhere('id', '!=', id)
-        .fetch()
+    const membersID = members.toJSON().map(member => member.id)
 
-      return users
-    }
+    const availables = await User
+      .query()
+      .where('company_id', company_id)
+      .whereNotIn('id', membersID)
+      .fetch()
 
-    response.unauthorized()
+    return { members, availables }
   }
+
   async store({ request, response }) {
-    const { name, email, password, company_id, salterns } = request.all()
+    const { name, email, password, company_id, saltern_id } = request.all()
 
     const user = await User.create({ name, email, password, company_id })
 
-    if (user) {
-      if (salterns.length > 0) {
-        await user.salterns().attach(salterns)
-      }
+    await user.salterns().attach([saltern_id])
 
+    if (user) {
       response.created()
     } else {
       response.badRequest()

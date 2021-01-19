@@ -15,7 +15,7 @@ class StationController {
   }
 
   async store({ request, response }) {
-    const data = request.only(['name', 'area', 'latitude', 'longitude', 'saltern_id'])
+    const data = request.only(['name', 'area', 'category_id', 'latitude', 'longitude', 'saltern_id'])
 
     const station = await Station.create(data)
 
@@ -31,7 +31,13 @@ class StationController {
 
     const station = await Station.find(id)
 
-    const data = request.only(['name', 'area', 'latitude', 'longitude'])
+    const data = request.only([
+      'name',
+      'category_id',
+      'area',
+      'latitude',
+      'longitude'
+    ])
 
     station.merge(data)
 

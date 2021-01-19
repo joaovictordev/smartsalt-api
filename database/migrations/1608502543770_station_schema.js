@@ -8,9 +8,9 @@ class StationSchema extends Schema {
       table.increments()
       table.string('name').notNullable()
       table.decimal('area').notNullable()
-      table.integer('saltern_id').notNullable()
       table.string('latitude').notNullable()
       table.string('longitude').notNullable()
+      table.integer('saltern_id').notNullable()
       table.timestamps()
 
       table.foreign('saltern_id').references('salterns.id').onDelete('cascade')

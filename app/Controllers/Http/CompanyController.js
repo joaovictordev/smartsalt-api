@@ -4,7 +4,10 @@ const Company = use('App/Models/Company')
 
 class CompanyController {
   async index ({ response }) {
-    const companies = await Company.all()
+    const companies = await Company
+      .query()
+      .withCount('salterns')
+      .fetch()
 
     if (companies) {
       return companies
@@ -18,6 +21,8 @@ class CompanyController {
     const { id } = params
 
     const company = await Company.find(id)
+
+    await company.load('salterns')
 
     if (company) {
       return company

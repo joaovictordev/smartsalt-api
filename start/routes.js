@@ -39,9 +39,19 @@ Route.resource('companies', 'CompanyController')
   .middleware(['auth:admin'])
 
 Route.resource('salterns', 'SalternController')
-  .only(['index', 'store', 'update', 'destroy'])
+  .only(['show', 'store', 'update', 'destroy'])
   .middleware(['auth:admin'])
 
 Route.resource('stations', 'StationController')
   .only(['index','store', 'update', 'destroy'])
+  .middleware(['auth:admin'])
+
+Route.resource('categories', 'CategoryController')
+  .only(['index'])
+  .middleware(['auth:admin'])
+
+Route.post('members', 'MemberController.add')
+  .middleware(['auth:admin'])
+
+Route.delete('members', 'MemberController.remove')
   .middleware(['auth:admin'])

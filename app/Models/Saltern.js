@@ -10,7 +10,7 @@ class Saltern extends Model {
   }
 
   stations() {
-    return this.hasMany('App/models/Station')
+    return this.hasMany('App/Models/Station')
   }
 }
 
