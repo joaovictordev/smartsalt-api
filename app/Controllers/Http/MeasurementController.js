@@ -4,9 +4,14 @@ const Measurement = use('App/Models/Measurement')
 
 class MeasurementController {
   async store({ request, response }) {
-    const data = request.only(['value', 'collected_at', 'station_id', 'property_id'])
+    const { value, collected_at, station_id, property_id } = request.get()
 
-    await Measurement.create(data)
+    await Measurement.create({
+      value,
+      collected_at,
+      station_id,
+      property_id
+    })
 
     response.created()
   }
