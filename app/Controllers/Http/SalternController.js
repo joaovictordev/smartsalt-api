@@ -33,11 +33,11 @@ class SalternController {
 
     const saltern = await Saltern.create(data)
 
-    if (saltern) {
-      response.created()
-    } else {
+    if (!saltern) {
       response.badRequest()
     }
+
+    return saltern
   }
 
   async update({ params, request, response }) {

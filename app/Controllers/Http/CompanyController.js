@@ -44,11 +44,11 @@ class CompanyController {
 
     const company = await Company.create(data)
 
-    if (company) {
-      return response.created()
-    } else {
+    if (!company) {
       return response.badRequest()
     }
+
+    return company
   }
 
   async update({ params, request, response }) {

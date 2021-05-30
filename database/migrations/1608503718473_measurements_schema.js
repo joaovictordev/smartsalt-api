@@ -9,7 +9,7 @@ class MeasurementsSchema extends Schema {
       table.integer('station_id').notNullable()
       table.integer('property_id').notNullable()
       table.decimal('value').notNullable()
-      table.datetime('collected_at').notNullable()
+      table.datetime('collected_at').defaultTo(this.fn.now()).notNullable()
       table.timestamps()
 
       table.foreign('station_id').references('stations.id').onDelete('cascade')

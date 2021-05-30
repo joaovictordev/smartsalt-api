@@ -15,15 +15,22 @@ class StationController {
   }
 
   async store({ request, response }) {
-    const data = request.only(['name', 'area', 'category_id', 'latitude', 'longitude', 'saltern_id'])
+    const data = request.only([
+      'name',
+      'area',
+      'category_id',
+      'latitude',
+      'longitude',
+      'saltern_id'
+    ])
 
     const station = await Station.create(data)
 
-    if (station) {
-      response.created()
-    } else {
+    if (!station) {
       response.badRequest()
     }
+
+    return station
   }
 
   async update({ params, request, response }) {

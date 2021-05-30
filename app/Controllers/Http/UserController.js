@@ -32,11 +32,11 @@ class UserController {
 
     await user.salterns().attach([saltern_id])
 
-    if (user) {
-      response.created()
-    } else {
+    if (!user) {
       response.badRequest()
     }
+
+    return user
   }
 
   async update({ params, request, response }) {

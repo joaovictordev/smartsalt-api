@@ -4,8 +4,10 @@ const Hash = use('Hash')
 
 const Route = use('Route')
 
-Route.get('hashs', async () => {
-  const hash = await Hash.make('test')
+Route.post('hashs', async ({ request }) => {
+  const { password } = request.all()
+
+  const hash = await Hash.make(password)
 
   return { hash }
 })
@@ -16,17 +18,13 @@ Route.post('sessions', 'SessionController.storeUser')
 Route.post('admin/sessions', 'SessionController.storeAdmin')
 
 // ----------- User -------------------------------
-
-Route.resource('users', 'UserController')
-  .only(['update', 'show'])
-  .middleware(['auth:user'])
-
 Route.resource('salterns', 'SalternController')
   .only(['index'])
   .middleware(['auth:user'])
 
 Route.resource('measurements', 'MeasurementController')
   .only(['index', 'store'])
+  .middleware(['auth:user'])
 
 // ----------- Admin -------------------------------
 Route.resource('users', 'UserController')

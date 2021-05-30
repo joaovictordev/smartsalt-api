@@ -4,16 +4,20 @@ const Measurement = use('App/Models/Measurement')
 
 class MeasurementController {
   async store({ request, response }) {
-    const { value, collected_at, station_id, property_id } = request.get()
+    const { value, collected_at, station_id, property_id } = request.all()
 
-    await Measurement.create({
+    const measurement = await Measurement.create({
       value,
       collected_at,
       station_id,
       property_id
     })
 
-    response.created()
+    if (!measurement) {
+      response.badRequest()
+    }
+
+    return measurement
   }
 
   async index({ request }) {
