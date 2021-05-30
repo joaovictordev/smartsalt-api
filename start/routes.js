@@ -24,9 +24,8 @@ Route.resource('salterns', 'SalternController')
 
 Route.resource('measurements', 'MeasurementController')
   .only(['index', 'store'])
-  .middleware(['auth:user'])
 
-// ----------- Admin -------------------------------
+  // ----------- Admin -------------------------------
 Route.resource('users', 'UserController')
   .only(['index', 'store', 'update', 'destroy'])
   .middleware(['auth:admin'])
